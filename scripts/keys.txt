@@ -1,0 +1,68 @@
+`	~	ё	ё
+1	!	1	!
+2	@	2	"
+3	#	3	№
+4	$	4	;
+5	%	5	%
+6	^	6	:
+7	&	7	?
+8	*	8	*
+9	(	9	(
+0	)	0	)
+-	_	-	_
+=	+	=	+
+Backspace	Backspace	Backspace	Backspace	fn,long-key
+=======
+Tab	Tab	fn
+q	Q	й	Й
+w	W	ц	Ц
+e	E	у	У
+r	R	к	К
+t	T	е	Е
+y	Y	н	Н
+u	U	г	Г
+i	I	ш	Ш
+o	O	щ	Щ
+p	P	з	З
+[	{	х	Х
+]	}	ъ	Ъ
+\	|	\	/
+Del	Del	Del	Del	fn
+=======
+CapsLock	CapsLock	CapsLock	CapsLock	fn,long-key
+a	A	ф	Ф
+s	S	ы	Ы
+d	D	в	В
+f	F	а	А
+g	G	п	П
+h	H	р	Р
+j	J	о	О
+k	K	л	Л
+l	L	д	Д
+;	:	ж	Ж
+'	"	э	Э
+Enter	Enter	Enter	Enter	fn,middle-key
+=======
+Shift	Shift	Shift	Shift	fn,long-key
+z	Z	я	Я
+x	X	ч	Ч
+c	C	с	С
+v	V	м	М
+b	B	и	И
+n	N	т	Т
+m	M	ь	Ь
+,	<	б	Б
+.	>	ю	Ю
+/	?	.	,
+&uarr;	&uarr;	&uarr;	&uarr;	fn
+Shift	Shift	Shift	Shift	fn,middle-key
+=======
+Ctrl	Ctrl	Ctrl	Ctrl	fn
+Win	Win	Win	Win	fn
+Alt	Alt	Alt	Alt	fn
+ 	 	 	 	space
+Alt	Alt	Alt	Alt	fn
+&larr;	&larr;	&larr;	&larr;	fn
+&darr;	&darr;	&darr;	&darr;	fn
+&rarr;	&rarr;	&rarr;	&rarr;	fn
+Ctrl	Ctrl	Ctrl	Ctrl	fn

@@ -1,0 +1,81 @@
+.textfield {
+    width: 100%;
+    height: 15rem;
+    border-radius: 5px;
+    margin-bottom: 40px;
+}
+
+.keyboard {
+    display: flex;
+    flex-direction: column;
+    gap:  5px;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 10px;
+    border: 5px solid rgb(23, 41, 143);
+    background-color: rgb(56, 69, 138);
+
+    .row {
+        display: flex;
+        flex-direction: row;
+        gap: $key-gap;
+        justify-content: center;
+    }
+}
+
+
+.key {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: $key-width;
+    height: $key-width;
+    background-color: rgb(92, 110, 212);
+
+    font-size: 1.5rem;
+    color:rgb(222, 227, 250);
+    border-radius: 5px;
+
+    @media screen and (max-width: $NORMAL_SCREEN) {
+        width: $middle-key-width;
+        height: $middle-key-width;
+        font-size: 1rem;
+    }
+
+    @media screen and (max-width: $MIDDLE_SCREEN) {
+        width: $small-key-width;
+        height: $small-key-width;
+        font-size: 0.6rem;
+        border-radius: 3px;
+    }
+}
+
+.fn {
+    background-color: rgb(22, 35, 105);;
+}
+
+.long-key, .middle-key {
+    width: calc(2 * $key-width + $key-gap);
+
+    @media screen and (max-width: $NORMAL_SCREEN) {
+        width: calc(2 * $middle-key-width + $key-gap);
+    }
+
+    @media screen and (max-width: $MIDDLE_SCREEN) {
+        width: calc(2 * $small-key-width + $key-gap);
+    }
+}
+
+.space {
+    width: calc(7 * ($key-width + $key-gap));
+
+    @media screen and (max-width: $NORMAL_SCREEN) {
+        width: calc(7 * ($middle-key-width + $key-gap));
+    }
+
+    @media screen and (max-width: $MIDDLE_SCREEN) {
+        width: calc(7 * ($small-key-width + $key-gap));
+    }
+}
