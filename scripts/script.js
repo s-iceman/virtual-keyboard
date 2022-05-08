@@ -73,13 +73,32 @@ class Keyboard {
     }
 
     addListeners(){
-        this.keyboard.addEventListener('click', (ev) => this.pressKey(ev));
+        this.keyboard.addEventListener('click', (ev) => this.pressVirtualKey(ev));
+        document.addEventListener('keypress', (ev) => this.pressKey(ev));
+    }
+
+    pressVirtualKey(ev){
+        const targetKey = ev.target.closest('.key');
+        if (!targetKey){
+            return;
+        }
+        this.activateButton(targetKey);
+    }
+
+    activateButton(target){
+        target.classList.add('active');
+        target.addEventListener('animationend', this.stopAnimation.bind(this) );
+    }
+
+    stopAnimation(event){
+        const target = event.target;
+        console.log(target);
+        target.classList.remove('active');
+        target.removeEventListener('animationend', this.stopAnimation.bind(this) );
     }
 
     pressKey(ev){
-        if (!ev.target.closest('.key')){
-            return;
-        }
+        console.log(ev);
     }
 }
 

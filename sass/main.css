@@ -412,9 +412,14 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
   width: 4rem;
   height: 4rem;
-  background-color: rgb(92, 110, 212);
+  background: linear-gradient(to right, rgba(109, 125, 218, 0.911) 0%, rgba(174, 219, 90, 0.911) 50%, rgba(109, 125, 218, 0.911) 100%);
+  background-size: 900%;
   font-size: 1.5rem;
   color: rgb(222, 227, 250);
   border-radius: 5px;
@@ -464,5 +469,30 @@ body {
 @media screen and (max-width: 768px) {
   .space {
     width: calc(7 * (4vw + 5px));
+  }
+}
+
+.active {
+  -webkit-animation-duration: 0.5s;
+          animation-duration: 0.5s;
+  -webkit-animation-name: active-key;
+          animation-name: active-key;
+}
+
+@-webkit-keyframes active-key {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 100% 100%;
+  }
+}
+
+@keyframes active-key {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 100% 100%;
   }
 }/*# sourceMappingURL=main.css.map */

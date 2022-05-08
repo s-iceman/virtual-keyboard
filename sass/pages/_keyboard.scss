@@ -24,15 +24,17 @@
     }
 }
 
-
 .key {
     display: flex;
     justify-content: center;
     align-items: center;
 
+    user-select: none;
+
     width: $key-width;
     height: $key-width;
-    background-color: rgb(92, 110, 212);
+    background: linear-gradient(to right, $main-color 0%, $secondary-color 50%, $main-color 100%);
+    background-size: 900%;
 
     font-size: 1.5rem;
     color:rgb(222, 227, 250);
@@ -77,5 +79,20 @@
 
     @media screen and (max-width: $MIDDLE_SCREEN) {
         width: calc(7 * ($small-key-width + $key-gap));
+    }
+}
+
+.active {
+    animation-duration: 0.5s;
+    animation-name: active-key;
+}
+
+
+@keyframes active-key {
+    from {
+        background-position: 0% 50%;
+    }
+    to {
+        background-position: 100% 100%;
     }
 }
