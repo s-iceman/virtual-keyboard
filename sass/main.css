@@ -389,6 +389,7 @@ body {
   height: 15rem;
   border-radius: 5px;
   margin-bottom: 40px;
+  font-size: 1.2rem;
 }
 
 .keyboard {
@@ -473,8 +474,8 @@ body {
 }
 
 .active {
-  -webkit-animation-duration: 0.5s;
-          animation-duration: 0.5s;
+  -webkit-animation-duration: 0.3s;
+          animation-duration: 0.3s;
   -webkit-animation-name: active-key;
           animation-name: active-key;
 }

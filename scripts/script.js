@@ -30,9 +30,11 @@ class Creator {
         for (let r of this.keys){
             const row = this._create('div', ['row']);
             for (let k of r){
-                const e = this._create('span', k.styles.concat(['key']));
-                e.innerHTML = k.en[0];
-                row.appendChild(e);
+                const elem = this._create('span', k.styles.concat(['key']));
+                elem.id = k.code;
+                elem.setAttribute('special', k.isSpecial);
+                elem.innerHTML = k.en[0];
+                row.appendChild(elem);
             }
             keyboard.appendChild(row);
         }
@@ -74,7 +76,18 @@ class Keyboard {
 
     addListeners(){
         this.keyboard.addEventListener('click', (ev) => this.pressVirtualKey(ev));
-        document.addEventListener('keypress', (ev) => this.pressKey(ev));
+        document.addEventListener('keydown', (ev) => this.pressKey(ev));
+    }
+
+    activateKey(target){
+        target.classList.add('active');
+        target.addEventListener('animationend', this.deactivateKey.bind(this) );
+    }
+
+    deactivateKey(event){
+        const target = event.target;
+        target.classList.remove('active');
+        target.removeEventListener('animationend', this.deactivateKey.bind(this) );
     }
 
     pressVirtualKey(ev){
@@ -82,23 +95,22 @@ class Keyboard {
         if (!targetKey){
             return;
         }
-        this.activateButton(targetKey);
-    }
-
-    activateButton(target){
-        target.classList.add('active');
-        target.addEventListener('animationend', this.stopAnimation.bind(this) );
-    }
-
-    stopAnimation(event){
-        const target = event.target;
-        console.log(target);
-        target.classList.remove('active');
-        target.removeEventListener('animationend', this.stopAnimation.bind(this) );
+        this._processKey(ev, targetKey);
     }
 
     pressKey(ev){
-        console.log(ev);
+        ev.preventDefault();
+        const targetKey = document.getElementById(ev.code);
+        this.activateKey(targetKey);
+        this._processKey(ev, targetKey);
+    }
+
+    _processKey(ev, targetKey){
+        this.activateKey(targetKey);
+        if (targetKey.getAttribute('special') === 'false'){
+            const value = targetKey.innerHTML;
+            this.textfield.value += value;
+        }
     }
 }
 
