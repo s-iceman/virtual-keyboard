@@ -1,8 +1,10 @@
 class Creator {
     keys = [];
+    isEn = true;
 
-    constructor(keysData){
+    constructor(keysData, isEn){
         this.keys = keysData;
+        this.isEn = isEn;
     }
 
     createHeader(parent){
@@ -33,13 +35,16 @@ class Creator {
         const lang = this._create('span');
         const langLabel = this._create('span');
         langLabel.textContent = 'Текущий язык:';
+        const langValue = this._create('span', ['lang']);
+        langValue.textContent = (this.isEn) ? 'EN' : 'RU';
         lang.appendChild(langLabel);
-        lang.appendChild(this._create('span', ['lang']));
+        lang.appendChild(langValue);
         elem.appendChild(lang);
         parent.appendChild(elem);
     }
 
     createKeys(parent){
+        const lang = (this.isEn) ? 'en' : 'ru';
         const keyboard = this._create('div', ['keyboard']);
         let rowId = 0;
         for (let r of this.keys){
@@ -50,7 +55,7 @@ class Creator {
                 elem.id = k.code;
                 elem.setAttribute('special', k.isSpecial);
                 elem.setAttribute('position', `${rowId}_${columnId}`);
-                elem.innerHTML = k.en[0];
+                elem.innerHTML = k[lang][0];
                 row.appendChild(elem);
                 columnId++;
             }

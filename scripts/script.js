@@ -15,7 +15,7 @@ class Keyboard {
 
     constructor(keysData){
         this.keysData = keysData;
-        this.creator = new Creator(keysData);
+        this.creator = new Creator(keysData, this.isEnLang());
     }
 
     start(){
@@ -56,7 +56,6 @@ class Keyboard {
 
     pressKey(ev){
         ev.preventDefault();
-        //console.log(ev);
         const targetKey = document.getElementById(ev.code);
         this.activateKey(targetKey);
         this.processKey(ev, targetKey);
@@ -88,9 +87,9 @@ class Keyboard {
         else if (keyId === 'CapsLock'){
             this.processCapsLock(targetKey);
         }
-        else if (keyId.startWith('Shift')){
-            this.processShift();
-        }
+        //else if (keyId.startWith('Shift')){
+        //    this.processShift();
+        //}
         else if (ev.altKey && ev.ctrlKey){
             this.changeLang();
         }
@@ -112,15 +111,7 @@ class Keyboard {
 
     processCapsLock(targetKey){
         this.isCapsLockActive = !this.isCapsLockActive;
-        const idx = (this.isCapsLockActive) ? 1 : 0;
-        const keys = document.querySelectorAll('.key');
-        keys.forEach(k => {
-            const [r, c] = k.getAttribute('position').split('_');
-            const keyObj = this.keysData[r][c];
-            if (keyObj !== undefined){
-                k.innerHTML = keyObj.en[idx];
-            }
-        })
+        this.changeLayout();
         targetKey.classList.toggle('pressed');
     }
 
@@ -129,7 +120,29 @@ class Keyboard {
     }
 
     changeLang(){
-        console.log('CHANGE LANG');
+        const isEn = !this.isEnLang();
+        localStorage.setItem('isEn', isEn);
+        this.changeLayout();
+
+        const lang = document.querySelector('.lang');
+        lang.textContent = (isEn) ? 'EN' : 'RU';
+    }
+
+    changeLayout(){
+        const lang = (this.isEnLang()) ? 'en' : 'ru';
+        const idx = (this.isCapsLockActive) ? 1 : 0;
+        const keys = document.querySelectorAll('.key');
+        keys.forEach(k => {
+            const [r, c] = k.getAttribute('position').split('_');
+            const keyObj = this.keysData[r][c];
+            if (keyObj !== undefined){
+                k.innerHTML = keyObj[lang][idx];
+            }
+        })
+    }
+
+    isEnLang(){
+        return JSON.parse(localStorage.getItem('isEn'));
     }
 
     setCursor(pos){

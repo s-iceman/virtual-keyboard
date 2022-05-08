@@ -27,7 +27,7 @@ class Parser {
             group.push({
                 code: props[this.CODE_IDX],
                 en: props.filter((e, idx) => this.EN_IDX.includes(idx)),
-                ru: (e, idx) => this.RU_IDX.includes(idx),
+                ru: props.filter((e, idx) => this.RU_IDX.includes(idx)),
                 isSpecial: props[this.IS_SPECIAL_IDX] !== '0',
                 styles: styles
                 }
