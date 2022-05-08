@@ -1,68 +1,20 @@
 import Parser from "./parser.js";
+import Creator from "./creator.js";
 
-class Creator {
-    keys = [];
-
-    constructor(keysData){
-        this.keys = keysData;
-    }
-
-    createHeader(parent){
-        const header = this._create('div', ['header']);
-        header.textContent = 'RSS Виртуальная клавиатура';
-        parent.appendChild(header);
-    }
-
-    createMain(parent){
-        const main = this._create('div', ['main-wrapper']);
-        this.createTextfield(main);
-        this.createKeys(main);
-        parent.appendChild(main);
-    }
-
-    createTextfield(parent){
-        const elem = this._create('textarea', ['textfield']);
-        parent.appendChild(elem);
-    }
-
-    createKeys(parent){
-        const keyboard = this._create('div', ['keyboard']);
-        for (let r of this.keys){
-            const row = this._create('div', ['row']);
-            for (let k of r){
-                const elem = this._create('span', k.styles.concat(['key']));
-                elem.id = k.code;
-                elem.setAttribute('special', k.isSpecial);
-                elem.innerHTML = k.en[0];
-                row.appendChild(elem);
-            }
-            keyboard.appendChild(row);
-        }
-        parent.appendChild(keyboard);
-    }
-
-    createPage(parent){
-        const wrapper = this._create('div', ['wrapper']);
-        this.createHeader(wrapper);
-        this.createMain(wrapper);
-        parent.insertBefore(wrapper, parent.firstChild);
-    }
-
-    _create(tag, styles){
-        const elem = document.createElement(tag);
-        elem.classList.add(...styles);
-        return elem;
-    }
-};
+const EXCLUDED_ANIM = ['CapsLock'];
 
 
 class Keyboard {
     creator = undefined;
+    keysData = [];
 
     keyboard = undefined;
     textfield = undefined;
 
+    isCapsLockActive = false;
+
     constructor(keysData){
+        this.keysData = keysData;
         this.creator = new Creator(keysData);
     }
 
@@ -77,9 +29,13 @@ class Keyboard {
     addListeners(){
         this.keyboard.addEventListener('click', (ev) => this.pressVirtualKey(ev));
         document.addEventListener('keydown', (ev) => this.pressKey(ev));
+        document.addEventListener('keyup', (ev) => this.upKey(ev));
     }
 
     activateKey(target){
+        if (EXCLUDED_ANIM.includes(target.id)){
+            return;
+        }
         target.classList.add('active');
         target.addEventListener('animationend', this.deactivateKey.bind(this) );
     }
@@ -95,22 +51,89 @@ class Keyboard {
         if (!targetKey){
             return;
         }
-        this._processKey(ev, targetKey);
+        this.processKey(ev, targetKey);
     }
 
     pressKey(ev){
         ev.preventDefault();
+        //console.log(ev);
         const targetKey = document.getElementById(ev.code);
         this.activateKey(targetKey);
-        this._processKey(ev, targetKey);
+        this.processKey(ev, targetKey);
     }
 
-    _processKey(ev, targetKey){
+    upKey(ev){
+        console.log('UP - capslock');
+    }
+
+    processKey(ev, targetKey){
         this.activateKey(targetKey);
+        const pos = this.textfield.selectionStart;
+        const keyId = targetKey.id;
         if (targetKey.getAttribute('special') === 'false'){
-            const value = targetKey.innerHTML;
-            this.textfield.value += value;
+            this.addSymbol(targetKey.innerHTML, pos);
         }
+        else if (keyId === 'Tab'){
+            this.addSymbol('\t', pos);
+        }
+        else if (keyId === 'Enter'){
+            this.addSymbol('\n', pos);
+        }
+        else if (keyId === 'Backspace'){
+            this.removeSymbol(Math.max(0, pos - 1), pos);
+        }
+        else if (keyId === 'Delete'){
+            this.removeSymbol(pos, pos + 1);
+        }
+        else if (keyId === 'CapsLock'){
+            this.processCapsLock(targetKey);
+        }
+        else if (keyId.startWith('Shift')){
+            this.processShift();
+        }
+        else if (ev.altKey && ev.ctrlKey){
+            this.changeLang();
+        }
+    }
+
+    addSymbol(symbol, pos){
+        let value = this.textfield.value;
+        value = value.substring(0, pos) + symbol + value.substring(pos);
+        this.textfield.innerHTML = value;
+        this.setCursor(pos + 1);
+    }
+
+    removeSymbol(pos1, pos2){
+        let text = this.textfield.value;
+        text = text.slice(0, pos1) + text.slice(pos2);
+        this.textfield.innerHTML = text;
+        this.setCursor(pos1);
+    }
+
+    processCapsLock(targetKey){
+        this.isCapsLockActive = !this.isCapsLockActive;
+        const idx = (this.isCapsLockActive) ? 1 : 0;
+        const keys = document.querySelectorAll('.key');
+        keys.forEach(k => {
+            const [r, c] = k.getAttribute('position').split('_');
+            const keyObj = this.keysData[r][c];
+            if (keyObj !== undefined){
+                k.innerHTML = keyObj.en[idx];
+            }
+        })
+        targetKey.classList.toggle('pressed');
+    }
+
+    processShift(){
+        console.log('SHIFT');
+    }
+
+    changeLang(){
+        console.log('CHANGE LANG');
+    }
+
+    setCursor(pos){
+        this.textfield.selectionStart = this.textfield.selectionEnd = pos;
     }
 }
 
