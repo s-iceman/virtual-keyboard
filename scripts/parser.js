@@ -3,13 +3,13 @@ class Parser {
 
   CODE_IDX = 0;
 
-  EN_IDX = [1, 2];
+  EN_IDX = [1, 2, 3, 4];
 
-  RU_IDX = [3, 4];
+  RU_IDX = [5, 6, 7, 8];
 
-  IS_SPECIAL_IDX = 5;
+  IS_SPECIAL_IDX = 9;
 
-  STYLE_IDX = 6;
+  STYLE_IDX = 10;
 
   async start() {
     return fetch('../scripts/keys.txt')

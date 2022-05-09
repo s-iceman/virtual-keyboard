@@ -13,6 +13,8 @@ class KeyboardProcessor {
 
   isCapsLockActive = false;
 
+  isShiftActive = false;
+
   constructor(keysData) {
     this.keysData = keysData;
     this.creator = new Creator(keysData, KeyboardProcessor.isEnLang());
@@ -29,6 +31,7 @@ class KeyboardProcessor {
   addListeners() {
     this.keyboard.addEventListener('click', (ev) => this.pressVirtualKey(ev));
     document.addEventListener('keydown', (ev) => this.pressKey(ev));
+    document.addEventListener('keyup', (ev) => this.upKey(ev));
   }
 
   activateKey(target) {
@@ -49,7 +52,7 @@ class KeyboardProcessor {
     if (!targetKey) {
       return;
     }
-    this.processKey(ev, targetKey);
+    this.processKey(ev, targetKey, true);
   }
 
   pressKey(ev) {
@@ -59,7 +62,7 @@ class KeyboardProcessor {
     this.processKey(ev, targetKey);
   }
 
-  processKey(ev, targetKey) {
+  processKey(ev, targetKey, isVirtual=false) {
     this.activateKey(targetKey);
     const pos = this.textfield.selectionStart;
     const keyId = targetKey.id;
@@ -77,6 +80,8 @@ class KeyboardProcessor {
       this.processCapsLock(targetKey);
     } else if (ev.altKey && ev.ctrlKey) {
       this.changeLang();
+    } else if (KeyboardProcessor.isShift(keyId)) {
+      this.processShift(targetKey, isVirtual);
     }
   }
 
@@ -100,6 +105,31 @@ class KeyboardProcessor {
     targetKey.classList.toggle('pressed');
   }
 
+  processShift(targetKey, isVirtual) {
+    if (isVirtual) {
+      this.isShiftActive = !this.isShiftActive;
+    } 
+    else {
+      this.isShiftActive = true;
+    }
+    this.changeLayout();
+    if (this.isShiftActive){
+      targetKey.classList.add('pressed');
+    } else {
+      targetKey.classList.remove('pressed');
+    }
+  }
+
+  upKey(ev) {
+    ev.preventDefault();
+    const targetKey = document.getElementById(ev.code);
+    if (KeyboardProcessor.isShift(targetKey.id)) {
+      this.isShiftActive = false;
+      this.changeLayout();
+      targetKey.classList.remove('pressed');
+    }
+  }
+
   changeLang() {
     const isEn = !KeyboardProcessor.isEnLang();
     localStorage.setItem('isEn', isEn);
@@ -111,7 +141,7 @@ class KeyboardProcessor {
 
   changeLayout() {
     const lang = (KeyboardProcessor.isEnLang()) ? 'en' : 'ru';
-    const idx = (this.isCapsLockActive) ? 1 : 0;
+    const idx = this.getModeIdx();
     const keys = document.querySelectorAll('.key');
     keys.forEach((k) => {
       const key = k;
@@ -123,6 +153,19 @@ class KeyboardProcessor {
     });
   }
 
+  getModeIdx(){
+    if (this.isCapsLockActive && this.isShiftActive) {
+      return 3;
+    }
+    if (this.isCapsLockActive) {
+      return 1;
+    }
+    if (this.isShiftActive) {
+      return 2;
+    }
+    return 0;
+  }
+
   setCursor(pos) {
     this.textfield.selectionStart = pos;
     this.textfield.selectionEnd = pos;
@@ -130,6 +173,10 @@ class KeyboardProcessor {
 
   static isEnLang() {
     return JSON.parse(localStorage.getItem('isEn'));
+  }
+
+  static isShift(keyId) {
+    return keyId && keyId.startsWith('Shift');
   }
 }
 
