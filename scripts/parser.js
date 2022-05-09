@@ -12,7 +12,7 @@ class Parser {
   STYLE_IDX = 10;
 
   async start() {
-    return fetch('../scripts/keys.txt')
+    return fetch('./scripts/keys.txt')
       .then((response) => response.text())
       .then((text) => this.parse(text));
   }
