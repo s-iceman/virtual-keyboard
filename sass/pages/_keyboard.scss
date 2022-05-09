@@ -1,0 +1,128 @@
+.textfield {
+    width: 100%;
+    height: 13rem;
+    padding: 5px;
+    border-radius: 5px 5px 0 0;
+
+    font-size: 1.2rem;
+    letter-spacing: 0.05rem;
+}
+
+.textfield:focus {
+    outline: none;
+}
+
+.langAlert {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 2px 20px;
+    width: 100%;
+    margin-bottom: 40px;
+    border-radius: 0 0 5px 5px;
+    background-color: rgb(219, 229, 250);
+    letter-spacing: 0.1rem;
+    line-height: 1.3rem;
+    user-select: none;
+}
+
+.lang {
+    padding-left: 10px;
+    color:rgb(46, 60, 131);
+}
+
+.keyboard {
+    display: flex;
+    flex-direction: column;
+    gap:  5px;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 10px;
+    border: 5px solid rgb(23, 41, 143);
+    background-color: rgb(56, 69, 138);
+
+    .row {
+        display: flex;
+        flex-direction: row;
+        gap: $key-gap;
+        justify-content: center;
+    }
+}
+
+.key {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    user-select: none;
+
+    width: $key-width;
+    height: $key-width;
+    background: linear-gradient(to right, $main-color 0%, $secondary-color 50%, $main-color 100%);
+    background-size: 900%;
+
+    font-size: 1.5rem;
+    color:rgb(222, 227, 250);
+    border-radius: 5px;
+
+    @media screen and (max-width: $NORMAL_SCREEN) {
+        width: $middle-key-width;
+        height: $middle-key-width;
+        font-size: 1rem;
+    }
+
+    @media screen and (max-width: $MIDDLE_SCREEN) {
+        width: $small-key-width;
+        height: $small-key-width;
+        font-size: 0.6rem;
+        border-radius: 3px;
+    }
+}
+
+.fn {
+    background-color: rgb(22, 35, 105);;
+}
+
+.long-key, .middle-key {
+    width: calc(2 * $key-width + $key-gap);
+
+    @media screen and (max-width: $NORMAL_SCREEN) {
+        width: calc(2 * $middle-key-width + $key-gap);
+    }
+
+    @media screen and (max-width: $MIDDLE_SCREEN) {
+        width: calc(2 * $small-key-width + $key-gap);
+    }
+}
+
+.space {
+    width: calc(7 * ($key-width + $key-gap));
+
+    @media screen and (max-width: $NORMAL_SCREEN) {
+        width: calc(7 * ($middle-key-width + $key-gap));
+    }
+
+    @media screen and (max-width: $MIDDLE_SCREEN) {
+        width: calc(7 * ($small-key-width + $key-gap));
+    }
+}
+
+.pressed {
+    background: $secondary-color;
+    border-radius: 10px;
+}
+
+.active {
+    animation-duration: 0.3s;
+    animation-name: active-key;
+}
+
+@keyframes active-key {
+    from {
+        background-position: 0% 50%;
+    }
+    to {
+        background-position: 100% 100%;
+    }
+}
