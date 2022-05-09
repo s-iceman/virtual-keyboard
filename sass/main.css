@@ -393,6 +393,10 @@ body {
   letter-spacing: 0.05rem;
 }
 
+.textfield:focus {
+  outline: none;
+}
+
 .langAlert {
   display: flex;
   justify-content: space-between;
@@ -404,6 +408,10 @@ body {
   background-color: rgb(219, 229, 250);
   letter-spacing: 0.1rem;
   line-height: 1.3rem;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
 .lang {

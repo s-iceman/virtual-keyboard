@@ -30,7 +30,7 @@ class Creator {
   createAlert(parent) {
     const elem = Creator.create('div', ['langAlert']);
     const changeLangLable = Creator.create('span');
-    changeLangLable.textContent = 'Смена языка: Ctrl+Alt';
+    changeLangLable.textContent = 'Linux. Смена языка: Ctrl+Alt';
     elem.appendChild(changeLangLable);
 
     const lang = Creator.create('span');

@@ -169,6 +169,7 @@ class KeyboardProcessor {
   setCursor(pos) {
     this.textfield.selectionStart = pos;
     this.textfield.selectionEnd = pos;
+    this.textfield.focus();
   }
 
   static isEnLang() {
