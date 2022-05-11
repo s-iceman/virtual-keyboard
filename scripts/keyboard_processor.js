@@ -62,7 +62,7 @@ class KeyboardProcessor {
     this.processKey(ev, targetKey);
   }
 
-  processKey(ev, targetKey, isVirtual=false) {
+  processKey(ev, targetKey, isVirtual = false) {
     this.activateKey(targetKey);
     const pos = this.textfield.selectionStart;
     const keyId = targetKey.id;
@@ -108,12 +108,11 @@ class KeyboardProcessor {
   processShift(targetKey, isVirtual) {
     if (isVirtual) {
       this.isShiftActive = !this.isShiftActive;
-    } 
-    else {
+    } else {
       this.isShiftActive = true;
     }
     this.changeLayout();
-    if (this.isShiftActive){
+    if (this.isShiftActive) {
       targetKey.classList.add('pressed');
     } else {
       targetKey.classList.remove('pressed');
@@ -153,7 +152,7 @@ class KeyboardProcessor {
     });
   }
 
-  getModeIdx(){
+  getModeIdx() {
     if (this.isCapsLockActive && this.isShiftActive) {
       return 3;
     }
